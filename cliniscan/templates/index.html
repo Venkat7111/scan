@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Cliniscan Chatbot</title>
+	<style>
+		body { font-family: Arial, sans-serif; margin: 20px; }
+		.container { max-width: 900px; margin: 0 auto; }
+		.chat { border: 1px solid #ccc; border-radius: 8px; padding: 12px; height: 60vh; overflow-y: auto; background: #fafafa; }
+		.msg { margin-bottom: 10px; }
+		.role { font-weight: bold; margin-right: 8px; }
+		.form { margin-top: 12px; display: flex; gap: 8px; }
+		input[type="text"] { flex: 1; padding: 10px; }
+		select, button { padding: 10px; }
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h2>Cliniscan Chatbot (Gemini)</h2>
+		<form method="POST" class="form">
+			<select name="lang">
+				{% for code, name in langs.items() %}
+					<option value="{{ code }}" {% if selected_lang == code %}selected{% endif %}>{{ name }}</option>
+				{% endfor %}
+			</select>
+			<input type="text" name="user_input" placeholder="Type your message..." required />
+			<button type="submit">Send</button>
+		</form>
+
+		<div class="chat">
+			{% for role, message, lang in chat_history %}
+				<div class="msg">
+					<span class="role">{{ role }} [{{ lang }}]</span>
+					<span>{{ message|safe }}</span>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+</body>
+</html>
